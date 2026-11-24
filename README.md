@@ -11,8 +11,8 @@ A PHP/MySQL prototype for managing teams, players, matches, tournaments, sponsor
 ## Technology
 PHP · MySQL (mysqli) · SQL · HTML · CSS
 
-## Local development
-The PHP scripts reference a local MySQL database. To recreate the environment, use a local PHP/MySQL installation and provide the required database schema. A schema export is not currently included in the repository.
+## Local development and security
 
-## Limitations
-This is a database interface prototype, not a production authentication or authorization system. The role selection does not authenticate user identities. Database configuration, query construction and access controls require hardening before deployment. Do not expose the application to untrusted traffic.
+Provide the original MySQL database schema and set the environment variables described in [Security migration](SECURITY-MIGRATION.md). The revised demo requires password verification for the manager/player roles, validates table and column identifiers, uses parameterized SQL and checks authorization and CSRF on mutation routes. Update and deletion require all parts of the primary key.
+
+This is shared-role demonstration authentication, not a production identity system. Integration testing requires the original database schema.
