@@ -1,0 +1,3 @@
+# Local security setup
+
+Set DB_HOST, DB_PORT, DB_USER, DB_PASSWORD and DB_NAME in the PHP process environment. Use a restricted database account. Set MANAGER_PASSWORD_HASH and PLAYER_PASSWORD_HASH to different hashes generated locally with PHP password_hash; never commit the plaintext passwords or hashes. This is shared-role demo authentication, not individual user accounts. All read routes require login; mutations require manager access and CSRF validation. Update/delete require the full primary key, including composite keys. The original database schema is missing; obtain the original schema before testing. Review cookie settings, rate limiting, validation and database constraints before deployment. No live integration tests have been run.

@@ -1,6 +1,8 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "esports_tracker", 3307);
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+require __DIR__.'/bootstrap.php'; require_role(true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') csrf();
+
+$conn = db();
 $tournaments = $conn->query("SELECT tournament_id, name FROM Tournament");
 $teams = $conn->query("SELECT team_id, name FROM Team");
 
@@ -20,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <form method="POST">
+<input type="hidden" name="csrf" value="<?= h(token()) ?>">
   Tournament:
   <select name="tournament_id">
     <?php while ($row = $tournaments->fetch_assoc()): ?>

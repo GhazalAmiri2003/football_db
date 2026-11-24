@@ -1,7 +1,8 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "esports_tracker", 3307);
+require __DIR__.'/bootstrap.php'; require_role(true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') csrf();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$conn = db();if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $match_id = $_POST["match_id"];
     $team_id = $_POST["team_id"];
     $score = $_POST["score"];
@@ -13,12 +14,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         echo "Result inserted successfully.";
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: " . 'Check input and database constraints';
     }
 }
 ?>
 
 <form method="POST">
+<input type="hidden" name="csrf" value="<?= h(token()) ?>">
     Match ID: <input type="number" name="match_id" required><br>
     Team ID: <input type="number" name="team_id" required><br>
     Score: <input type="number" name="score" required><br>

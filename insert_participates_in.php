@@ -1,5 +1,8 @@
 <?php
-session_start();
+require __DIR__.'/bootstrap.php'; require_role(true);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') csrf();
+
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -8,8 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'manager') {
     exit;
 }
 
-$conn = new mysqli("localhost", "root", "", "esports_tracker", 3307);
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+$conn = db();
 
 $success = "";
 $error = "";
@@ -29,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($stmt->execute()) {
                 $success = "Participation inserted successfully!";
             } else {
-                $error = "Error: " . $stmt->error;
+                $error = "Error: " . 'Check input and database constraints';
             }
 
             $stmt->close();
@@ -56,6 +58,7 @@ $matches = $conn->query("SELECT match_id FROM Matchs");
     <?php if ($error) echo "<p style='color:red;'>$error</p>"; ?>
 
     <form method="POST">
+<input type="hidden" name="csrf" value="<?= h(token()) ?>">
         <label for="match_id">Select Match:</label><br>
         <select name="match_id" required>
             <option value="">-- Select Match --</option>

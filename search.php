@@ -1,31 +1,4 @@
-<?php
-
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Search</title>
-</head>
-<body>
-<h2>Search in Table</h2>
-<form action="search_result.php" method="GET">
-    <label>Choose table:</label>
-    <select name="table">
-        <option value="Player">Player</option>
-        <option value="Team">Team</option>
-        <option value="matchs">Matches</option>
-        <option value="Tournament">Tournament</option>
-        <option value="Sponsor">Sponsor</option>
-        <option value="Result">Result</option>
-    </select><br><br>
-
-    <label>Choose column:</label>
-    <input type="text" name="column" placeholder="e.g. name" required><br><br>
-
-    <label>Starts with:</label>
-    <input type="text" name="keyword" required><br><br>
-
-    <input type="submit" value="Search">
-</form>
-</body>
-</html>
+<?php require __DIR__.'/bootstrap.php'; require_role(); $table=table_name($_GET['table']??'Player'); $conn=db(); [$columns]=metadata($conn,$table); ?>
+<h2>Search <?= h($table) ?></h2><form action="search_result.php" method="GET">
+<input type="hidden" name="table" value="<?= h($table) ?>"><select name="column"><?php foreach($columns as $column): ?><option value="<?= h($column) ?>"><?= h($column) ?></option><?php endforeach; ?></select>
+<input name="keyword" required placeholder="Starts with"><button>Search</button></form>

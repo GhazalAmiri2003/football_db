@@ -1,0 +1,1 @@
+<?php require __DIR__.'/bootstrap.php'; csrf(); $_SESSION=[]; session_destroy(); header('Location: login.php'); exit;
