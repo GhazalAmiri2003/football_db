@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') csrf();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'manager') {
+if (!isset($_SESSION['authenticated_role']) || $_SESSION['authenticated_role'] !== 'manager') {
     echo "<h3 style='color:red;'>Access Denied. Only managers can insert data.</h3>";
     exit;
 }
